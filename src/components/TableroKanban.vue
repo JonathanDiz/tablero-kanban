@@ -11,7 +11,11 @@
             @edit-task="editTask"
             @save-task="saveTask"
           >
-            <CheckButton :task="task" :checked="task.checked" @click="handleCheckButtonClicked(task)" />
+            <CheckButton
+              :task="task"
+              :checked="task.checked"
+              @click="handleCheckButtonClicked(task)"
+            />
             <DeleteButton @click="deleteTask(task)" />
           </TaskCard>
           <div
@@ -94,14 +98,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue'
 
 interface Task {
-  id: number;
-  name: string;
-  status: string;
-  editing: boolean;
-  checked: boolean;
+  id: number
+  name: string
+  status: string
+  editing: boolean
+  checked: boolean
 }
 
 export default defineComponent({
@@ -111,34 +115,34 @@ export default defineComponent({
         { id: 1, name: 'Task 1', status: 'board', editing: false, checked: false },
         { id: 2, name: 'Task 2', status: 'board', editing: false, checked: false },
         { id: 3, name: 'Task 3', status: 'inProgress', editing: false, checked: false },
-        { id: 4, name: 'Task 4', status: 'done', editing: false, checked: false },
+        { id: 4, name: 'Task 4', status: 'done', editing: false, checked: false }
       ] as Task[],
-      newTaskName: "",
-    };
+      newTaskName: ''
+    }
   },
   computed: {
     board(): Task[] {
-      return this.tasks.filter(task => task.status === 'board');
+      return this.tasks.filter((task) => task.status === 'board')
     },
     inProgress(): Task[] {
-      return this.tasks.filter(task => task.status === 'inProgress');
+      return this.tasks.filter((task) => task.status === 'inProgress')
     },
     done(): Task[] {
-      return this.tasks.filter(task => task.status === 'done');
-    },
+      return this.tasks.filter((task) => task.status === 'done')
+    }
   },
   methods: {
     dragStart(task: Task) {
-      const taskJson = JSON.stringify(task);
-      const event = window.event as DragEvent;
-      event.dataTransfer!.setData('task', taskJson);
+      const taskJson = JSON.stringify(task)
+      const event = window.event as DragEvent
+      event.dataTransfer!.setData('task', taskJson)
     },
     editTask(task: Task) {
-      task.editing = true;
+      task.editing = true
     },
     saveTask(task: Task) {
-      task.editing = false;
-      localStorage.setItem(`task-${task.id}`, JSON.stringify(task));
+      task.editing = false
+      localStorage.setItem(`task-${task.id}`, JSON.stringify(task))
     },
     addTask() {
       const newTask: Task = {
@@ -146,50 +150,50 @@ export default defineComponent({
         name: this.newTaskName,
         status: 'board',
         editing: false,
-        checked: false,
-      };
-      this.tasks.push(newTask);
-      this.newTaskName = "";
+        checked: false
+      }
+      this.tasks.push(newTask)
+      this.newTaskName = ''
     },
     moveToInProgress(task: Task) {
       setTimeout(() => {
-        task.status = "inProgress";
-      }, 5000);
+        task.status = 'inProgress'
+      }, 5000)
     },
     deleteTask(task: Task) {
-      const index = this.tasks.findIndex((t) => t.id === task.id);
+      const index = this.tasks.findIndex((t) => t.id === task.id)
       if (index !== -1) {
-        this.tasks.splice(index, 1);
+        this.tasks.splice(index, 1)
       }
     },
     handleCheckButtonClicked(task: Task) {
       if (task.checked) {
-        task.checked = false;
-        task.status = "board";
+        task.checked = false
+        task.status = 'board'
       } else {
-        task.checked = true;
-        task.status = "inProgress";
+        task.checked = true
+        task.status = 'inProgress'
       }
-      localStorage.setItem(`task-${task.id}`, JSON.stringify(task));
-    },
+      localStorage.setItem(`task-${task.id}`, JSON.stringify(task))
+    }
   },
   mounted() {
     // Cargar tareas desde la caché (localStorage) al inicio
     for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
+      const key = localStorage.key(i)
       if (key && key.startsWith('task-')) {
-        const task = JSON.parse(localStorage.getItem(key)!) as Task;
-        const taskId = parseInt(key.split('-')[1]);
-        const index = this.tasks.findIndex(t => t.id === taskId);
+        const task = JSON.parse(localStorage.getItem(key)!) as Task
+        const taskId = parseInt(key.split('-')[1])
+        const index = this.tasks.findIndex((t) => t.id === taskId)
         if (index !== -1) {
-          this.tasks[index] = task;
+          this.tasks[index] = task
         } else {
-          this.tasks.push(task);
+          this.tasks.push(task)
         }
       }
     }
-  },
-});
+  }
+})
 </script>
 
 <style scoped>
@@ -197,12 +201,12 @@ export default defineComponent({
   min-height: 100px;
   padding: 10px;
   margin-bottom: 10px;
-  background-color: #0D47A1;
+  background-color: #0d47a1;
 }
 
 .vegas-card {
-  background-color: #FFC107;
-  color: #0D47A1;
+  background-color: #ffc107;
+  color: #0d47a1;
 }
 
 .vegas-card p {
@@ -210,11 +214,11 @@ export default defineComponent({
   padding: 10px;
 }
 
-.vegas-card input[type="text"] {
+.vegas-card input[type='text'] {
   padding: 5px;
   border: none;
-  background-color: #FFF;
-  color: #0D47A1;
+  background-color: #fff;
+  color: #0d47a1;
   margin-top: 5px;
 }
 
@@ -224,18 +228,18 @@ export default defineComponent({
   margin-top: 10px;
 }
 
-.add-task input[type="text"] {
+.add-task input[type='text'] {
   flex: 1;
   padding: 5px;
   border: none;
-  background-color: #FFF;
-  color: #0D47A1;
+  background-color: #fff;
+  color: #0d47a1;
   margin-right: 5px;
 }
 
 .add-task button {
-  background-color: #0D47A1;
-  color: #FFF;
+  background-color: #0d47a1;
+  color: #fff;
   border: none;
   padding: 5px 10px;
   cursor: pointer;
@@ -244,4 +248,3 @@ export default defineComponent({
   background-color: #002171;
 }
 </style>
-

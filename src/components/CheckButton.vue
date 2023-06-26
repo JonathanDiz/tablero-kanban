@@ -8,26 +8,26 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   props: {
     tasks: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
   methods: {
     handleCheckButtonClicked() {
-      this.tasks.checked = !this.tasks.checked;
+      this.tasks.checked = !this.tasks.checked
 
       // Luego, puedes guardar o actualizar la tarea en tu almacenamiento de datos (como localStorage) si es necesario
 
       // Ejemplo de cómo guardar la tarea en localStorage
-      localStorage.setItem(`task-${this.tasks.id}`, JSON.stringify(this.tasks));
-    },
-  },
-});
+      localStorage.setItem(`task-${this.tasks.id}`, JSON.stringify(this.tasks))
+    }
+  }
+})
 </script>
 
 <style scoped>

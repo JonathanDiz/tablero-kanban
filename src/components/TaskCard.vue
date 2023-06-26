@@ -17,31 +17,31 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue'
 
 interface Task {
-  id: number;
-  name: string;
-  status: string;
-  editing: boolean;
+  id: number
+  name: string
+  status: string
+  editing: boolean
 }
 
 export default defineComponent({
   props: {
     task: {
       type: Object as () => Task,
-      required: true,
-    },
+      required: true
+    }
   },
   methods: {
     editTask(task: Task) {
-      this.$emit("edit-task", task);
+      this.$emit('edit-task', task)
     },
     saveTask(task: Task) {
-      this.$emit("save-task", task);
-    },
-  },
-});
+      this.$emit('save-task', task)
+    }
+  }
+})
 </script>
 
 <style scoped>
@@ -49,12 +49,12 @@ export default defineComponent({
   min-height: 100px;
   padding: 10px;
   margin-bottom: 10px;
-  background-color: #0D47A1;
+  background-color: #0d47a1;
 }
 
 .vegas-card {
-  background-color: #FFC107;
-  color: #0D47A1;
+  background-color: #ffc107;
+  color: #0d47a1;
 }
 
 .vegas-card p {
@@ -62,11 +62,11 @@ export default defineComponent({
   padding: 10px;
 }
 
-.vegas-card input[type="text"] {
+.vegas-card input[type='text'] {
   padding: 5px;
   border: none;
-  background-color: #FFF;
-  color: #0D47A1;
+  background-color: #fff;
+  color: #0d47a1;
   margin-top: 5px;
 }
 
@@ -76,18 +76,18 @@ export default defineComponent({
   margin-top: 10px;
 }
 
-.add-task input[type="text"] {
+.add-task input[type='text'] {
   flex: 1;
   padding: 5px;
   border: none;
-  background-color: #FFF;
-  color: #0D47A1;
+  background-color: #fff;
+  color: #0d47a1;
   margin-right: 5px;
 }
 
 .add-task button {
-  background-color: #0D47A1;
-  color: #FFF;
+  background-color: #0d47a1;
+  color: #fff;
   border: none;
   padding: 5px 10px;
   cursor: pointer;
