@@ -4,6 +4,16 @@
       <div class="column">
         <div class="sortable-list">
           <h2 class="title is-4">Kanban Board</h2>
+          <TaskCard
+            v-for="task in board"
+            :key="task.id"
+            :task="task"
+            @edit-task="editTask"
+            @save-task="saveTask"
+          >
+            <CheckButton :task="task" :checked="task.checked" @click="handleCheckButtonClicked(task)" />
+            <DeleteButton @click="deleteTask(task)" />
+          </TaskCard>
           <div
             class="card vegas-card"
             v-for="task in board"
@@ -91,16 +101,17 @@ interface Task {
   name: string;
   status: string;
   editing: boolean;
+  checked: boolean;
 }
 
 export default defineComponent({
   data() {
     return {
       tasks: [
-        { id: 1, name: 'Task 1', status: 'board', editing: false },
-        { id: 2, name: 'Task 2', status: 'board', editing: false },
-        { id: 3, name: 'Task 3', status: 'inProgress', editing: false },
-        { id: 4, name: 'Task 4', status: 'done', editing: false },
+        { id: 1, name: 'Task 1', status: 'board', editing: false, checked: false },
+        { id: 2, name: 'Task 2', status: 'board', editing: false, checked: false },
+        { id: 3, name: 'Task 3', status: 'inProgress', editing: false, checked: false },
+        { id: 4, name: 'Task 4', status: 'done', editing: false, checked: false },
       ] as Task[],
       newTaskName: "",
     };
@@ -135,9 +146,31 @@ export default defineComponent({
         name: this.newTaskName,
         status: 'board',
         editing: false,
+        checked: false,
       };
       this.tasks.push(newTask);
       this.newTaskName = "";
+    },
+    moveToInProgress(task: Task) {
+      setTimeout(() => {
+        task.status = "inProgress";
+      }, 5000);
+    },
+    deleteTask(task: Task) {
+      const index = this.tasks.findIndex((t) => t.id === task.id);
+      if (index !== -1) {
+        this.tasks.splice(index, 1);
+      }
+    },
+    handleCheckButtonClicked(task: Task) {
+      if (task.checked) {
+        task.checked = false;
+        task.status = "board";
+      } else {
+        task.checked = true;
+        task.status = "inProgress";
+      }
+      localStorage.setItem(`task-${task.id}`, JSON.stringify(task));
     },
   },
   mounted() {
@@ -211,3 +244,4 @@ export default defineComponent({
   background-color: #002171;
 }
 </style>
+
